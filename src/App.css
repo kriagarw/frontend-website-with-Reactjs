@@ -31,3 +31,13 @@ address{
 .navbar-dark {
     background-color: #512DA8;
 }
+.border{
+    border-color: blue;
+    background-color: #ebf8ff;
+    color: #5a67d8;
+}
+.border:hover{
+    border-color: white;
+    background-color: #5a67d8;
+    color: white;
+}
