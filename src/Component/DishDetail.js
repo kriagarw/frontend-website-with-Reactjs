@@ -20,7 +20,7 @@ function RendorDish({ dish }) {
 }
 
 
-function RendorComments({ comments }) {
+function RendorComments({ comments , addComment, dishId}) {
     if (comments != null) {
         return (
             <div className="col-md-4 px-0 m-4">
@@ -31,13 +31,13 @@ function RendorComments({ comments }) {
                             <li key={comment.id}>
                                 <p>{comment.comment}</p>
                                 <p>-- {comment.author},
-                                            {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</p>
+                                {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</p>
                             </li>
                         )
                     })
                     }
                 </ul>
-                <CommentForm/>
+                <CommentForm dishId={dishId} addComment={addComment}/>
             </div>
         )
     }
@@ -64,7 +64,7 @@ const DishDetail = (props) => {
                 </div>
                 <div className="row">
                     <RendorDish dish={props.dish} />
-                    <RendorComments comments={props.comments} />
+                    <RendorComments comments={props.comments} addComment = {props.addComment} dishId={props.dish.id}/>
                 </div>
             </div>
         )
@@ -94,8 +94,9 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        console.log("current state is: " + JSON.stringify(values))
-        alert("current state is: " + JSON.stringify(values))
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        // console.log("current state is: " + JSON.stringify(values))
+        // alert("current state is: " + JSON.stringify(values))
     }
 
     render() {
