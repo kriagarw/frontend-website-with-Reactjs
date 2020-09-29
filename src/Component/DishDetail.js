@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Modal, ModalHeader, ModalBody, Row, Label, Col, Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { Control, LocalForm, Errors } from 'react-redux-form'
+import { Loading } from './LoadingComp';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -20,7 +21,7 @@ function RendorDish({ dish }) {
 }
 
 
-function RendorComments({ comments , addComment, dishId}) {
+function RendorComments({ comments, addComment, dishId }) {
     if (comments != null) {
         return (
             <div className="col-md-4 px-0 m-4">
@@ -29,15 +30,15 @@ function RendorComments({ comments , addComment, dishId}) {
                     {comments.map((comment) => {
                         return (
                             <li key={comment.id}>
-                                <p>{comment.comment}</p>
-                                <p>-- {comment.author},
+                                <p>{comment.comment} </p>
+                                <p>-- {comment.author} ,
                                 {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</p>
                             </li>
                         )
                     })
                     }
                 </ul>
-                <CommentForm dishId={dishId} addComment={addComment}/>
+                <CommentForm dishId={dishId} addComment={addComment} />
             </div>
         )
     }
@@ -49,7 +50,25 @@ function RendorComments({ comments , addComment, dishId}) {
 }
 
 const DishDetail = (props) => {
-    if (props.dish != null)
+    if (props.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        )
+    }
+    else if (props.errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        )
+    }
+    else if (props.dish != null)
         return (
             <div className="container">
                 <div className="row">
@@ -64,7 +83,7 @@ const DishDetail = (props) => {
                 </div>
                 <div className="row">
                     <RendorDish dish={props.dish} />
-                    <RendorComments comments={props.comments} addComment = {props.addComment} dishId={props.dish.id}/>
+                    <RendorComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
                 </div>
             </div>
         )
@@ -95,8 +114,6 @@ class CommentForm extends Component {
     handleSubmit(values) {
         this.toggleModal();
         this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
-        // console.log("current state is: " + JSON.stringify(values))
-        // alert("current state is: " + JSON.stringify(values))
     }
 
     render() {
