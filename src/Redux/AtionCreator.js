@@ -1,5 +1,7 @@
 import * as ActionTypes from './ActionTypes';
 import { DISHES } from '../Data/dishes';
+import { baseUrl } from '../Data/baseUrl';
+
 
 export const addComment = (dishId, rating, author, comment) => ({
     type: ActionTypes.ADD_COMMENT,
@@ -11,9 +13,15 @@ export const addComment = (dishId, rating, author, comment) => ({
     }
 })
 
+//***************** Fetching data of Dishes ****************
+
 export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading(true));
-    setTimeout(() => { dispatch (addDishes (DISHES ))}, 2000 );
+    // setTimeout(() => { dispatch (addDishes (DISHES ))}, 2000 );
+
+    return fetch(baseUrl + 'dishes')
+        .then(response => response.json())
+        .then(dishes => dispatch(addDishes(dishes)));
 }
 
 export const dishesLoading = () => ({
@@ -28,4 +36,47 @@ export const dishesFailed = (errmess) => ({
 export const addDishes = (dishes) => ({
     type: ActionTypes.ADD_DISHES,
     payload: dishes
+})
+
+// ******************** FETCHING DATA OF COMMENTS ******************
+
+export const fetchComments = () => (dispatch) => {
+   
+    return fetch(baseUrl + 'comments')
+        .then(response => response.json())
+        .then(comments => dispatch(addComments(comments)));
+}
+
+export const commentsFailed = (errmess) => ({
+    type: ActionTypes.COMMENTS_FAILED,
+    paylaod: errmess
+})
+
+export const addComments = (comments) => ({
+    type: ActionTypes.ADD_COMMENTS,
+    payload: comments
+})
+
+// ******************** FETCHING DATA OF PROMOTIONS ******************
+
+export const fetchPromos = () => (dispatch) => {
+    dispatch(promosLoading(true));
+
+    return fetch(baseUrl + 'promotions')
+        .then(response => response.json())
+        .then(promos => dispatch(addPromos(promos)));
+}
+
+export const promosLoading = () => ({
+    type: ActionTypes.PROMOS_LOADING
+})
+
+export const promosFailed = (errmess) => ({
+    type: ActionTypes.PROMOS_FAILED,
+    paylaod: errmess
+})
+
+export const addPromos = (promos) => ({
+    type: ActionTypes.ADD_PROMOS,
+    payload: promos
 })
