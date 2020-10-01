@@ -8,7 +8,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import Contact from './Contact';
 import About from './AboutComponent';
 import { connect } from 'react-redux';
-import { addComment, fetchDishes, fetchPromos, fetchComments } from '../Redux/AtionCreator'
+import { addComment, fetchDishes, fetchPromos, fetchComments } from '../Redux/ActionCreator'
 import { actions } from 'react-redux-form';
 
 const mapStateToProps = state => {
