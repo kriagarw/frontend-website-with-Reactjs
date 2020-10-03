@@ -41,11 +41,16 @@ address{
     background-color: #5a67d8;
     color: white;
 }
+.cancel{
+    border-color: #4299e1;
+    color: #4299e1;
+    background-color: white;
+}
 
 /* ******************** REACT ANIMATION ************************* */
 .page-enter{
     opacity: 0.01;
-    transform: translateY(-20%);
+    transform: translateX(-20%);
 }
 
 .page-enter-active{
