@@ -15,9 +15,9 @@ function RendorDish({ dish }) {
     return (
         <FadeTransform in
             transformProps={{
-                exitTransform: 'scale(0.2) translateY(-50%)'
+                exitTransform: 'scale(0.5) translateY(-50%)'
             }}>
-            <Card className="col-md-8 mb-2 px-0 mr-5">
+            <Card className="col-md-8 mb-2 px-0 mr-4">
                 <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
